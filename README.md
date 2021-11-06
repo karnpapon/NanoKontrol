@@ -1,6 +1,6 @@
 # `NanoKontrol` for `SuperCollider`
 
-Interface for using Korg NanoKONTROL with SuperCollider.
+Interface for using Korg NanoKontrol with SuperCollider.
 
 Basic usage
 -----------
@@ -14,8 +14,8 @@ n.fader1.onChange = {|val| (val/127).postln; }
 // overwrite the previous assignment
 n.fader1.onChange = {|val| val.linexp(0, 127, 20, 20000).postln; }
 
-n.sBtn1.onPress = { "Hello, ".post; };
-n.sBtn1.onRelease = { "NanoKONTROL!".postln; };
+n.upBtn1.onPress = { "Hello, ".post; };
+n.upBtn1.onRelease = { "NanoKONTROL!".postln; };
 ```
 
 Incremental assignment
@@ -39,8 +39,8 @@ n.knobs.do {|knob, i|
     }
 };
 
-n.rBtns.do {|rBtn, i|
-    rBtn.onChange = {|val|
+n.downBtns.do {|rBtn, i|
+    downBtn.onChange = {|val|
         "This is rBtn % its value is %\n".postf(i+1, val);
     }
 };
@@ -88,8 +88,8 @@ All controls on the NanoKONTROL are supported, see list of names below.
 
 #### Buttons
 
-* `sBtn1 .. 8`
-* `rBtn1 .. 8`
+* `upBtn1 .. 8`
+* `downBtn1 .. 8`
 
 #### Transport buttons
 
@@ -104,8 +104,8 @@ All controls on the NanoKONTROL are supported, see list of names below.
 
 * `faders`
 * `knobs`
-* `sBtns`
-* `rBtns`
+* `upBtns`
+* `downBtns`
 
 ## Credits
 

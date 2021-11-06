@@ -8,16 +8,16 @@
 // TODO: implement scene btn.
 NanoKontrol {
     var <faders, <knobs;
-    var <sBtns, <rBtns;
+    var <upBtns, <downBtns;
     // var <>ledMode;
 
     var ctls, midiOut;
     var ccFaders, ccKnobs;
-    var ccSBtns, ccRBtns;
+    var ccUpBtns, ccDownBtns;
     var ccTransportBtns, ccCycleBtn;
 
-    *new {|ledMode=\internal|
-        ^super.new.ledMode_(ledMode).init;
+    *new {
+        ^super.new.init;
     }
 
     init {
@@ -26,13 +26,13 @@ NanoKontrol {
         faders = List[];
         knobs  = List[];
 
-        sBtns  = List[];
-        rBtns  = List[];
+        upBtns  = List[];
+        downBtns  = List[];
 
         ccFaders = [2,3,4,5,6,8,9,12,13];
         ccKnobs  = (14..22);
-        ccSBtns  = (23..31);
-        ccRBtns  = (33..41);
+        ccUpBtns  = (23..31);
+        ccDownBtns  = (33..41);
 
         ccTransportBtns = [ 45, 46, 44, 47, 48 ];
         ccCycleBtn      = 49;
@@ -63,24 +63,17 @@ NanoKontrol {
             ctls.put(key, nk);
         };
 
-        ccSBtns.collect {|cc, i|
-            var key = ("sBtn" ++ (i+1)).asSymbol;
+        ccUpBtns.collect {|cc, i|
+            var key = ("upBtn" ++ (i+1)).asSymbol;
             var nk  = NKButton(key, cc, midiOut);
-            sBtns.add(nk);
+            upBtns.add(nk);
             ctls.put(key, nk);
         };
 
-        ccMBtns.collect {|cc, i|
-            var key = ("mBtn" ++ (i+1)).asSymbol;
+        ccDownBtns.collect {|cc, i|
+            var key = ("downBtn" ++ (i+1)).asSymbol;
             var nk  = NKButton(key, cc, midiOut);
-            mBtns.add(nk);
-            ctls.put(key, nk);
-        };
-
-        ccRBtns.collect {|cc, i|
-            var key = ("rBtn" ++ (i+1)).asSymbol;
-            var nk  = NKButton(key, cc, midiOut);
-            rBtns.add(nk);
+            downBtns.add(nk);
             ctls.put(key, nk);
         };
 
