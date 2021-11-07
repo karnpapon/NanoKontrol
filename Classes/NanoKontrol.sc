@@ -9,7 +9,6 @@
 NanoKontrol {
     var <faders, <knobs;
     var <upBtns, <downBtns;
-    // var <>ledMode;
 
     var ctls, midiOut;
     var ccFaders, ccKnobs;
@@ -29,21 +28,16 @@ NanoKontrol {
         upBtns  = List[];
         downBtns  = List[];
 
-        ccFaders = [2,3,4,5,6,8,9,12,13];
+        ccFaders = (2..6)++[8,9]++[12,13];
         ccKnobs  = (14..22);
         ccUpBtns  = (23..31);
         ccDownBtns  = (33..41);
 
-        ccTransportBtns = [ 45, 46, 44, 47, 48 ];
+        ccTransportBtns = (44..48);
         ccCycleBtn      = 49;
 
         MIDIClient.init;
         MIDIIn.connectAll;
-
-        // if(ledMode == \external) {
-        //     // Device/Port name might have to be edited to match your setup.
-        //     midiOut = MIDIOut.newByName("nanoKONTROL", "CTRL");
-        // };
 
         this.assignCtls;
     }
@@ -77,7 +71,7 @@ NanoKontrol {
             ctls.put(key, nk);
         };
 
-        [ [ 'playBtn', 'stopBtn', 'recBtn', 'bwBtn', 'fwdBtn' ], ccTransportBtns ].flopWith {|key, cc|
+        [ [ 'recBtn', 'playBtn', 'stopBtn', 'bwBtn', 'fwdBtn' ], ccTransportBtns ].flopWith {|key, cc|
             ctls.put(key, NKButton(key, cc, midiOut));
         };
 
@@ -88,10 +82,6 @@ NanoKontrol {
         ctls.do(_.free);
     }
 
-    ledsOff {
-        ctls.do(_.ledOff);
-    }
-
     doesNotUnderstand {|selector ... args|
         ^ctls[selector] ?? { ^super.doesNotUnderstand(selector, args) }
     }
@@ -99,7 +89,6 @@ NanoKontrol {
 
 NKController {
     var key, cc, midiOut;
-    var state = 0;
 
     *new {|key, cc|
         ^super.newCopyArgs(("nk_" ++ key).asSymbol, cc);
@@ -109,16 +98,8 @@ NKController {
         MIDIdef.cc(key, func, cc);
     }
 
-    ledOff {
-        midiOut !? {
-            midiOut.control(0, cc, 0);
-            state = 0;
-        };
-    }
-
     free {
         MIDIdef.cc(key).free;
-        this.ledOff;
     }
 }
 
@@ -144,17 +125,4 @@ NKButton : NKController {
             }
         }, cc);
     }
-
-    // ledState {
-    //     ^state;
-    // }
-
-    // ledState_ {|val|
-    //     val   = val.clip(0, 1);
-    //     state = val;
-
-    //     midiOut !? {
-    //         midiOut.control(0, cc, 127 * val);
-    //     };
-    // }
 }

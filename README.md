@@ -39,9 +39,9 @@ n.knobs.do {|knob, i|
     }
 };
 
-n.downBtns.do {|rBtn, i|
+n.downBtns.do {|downBtn, i|
     downBtn.onChange = {|val|
-        "This is rBtn % its value is %\n".postf(i+1, val);
+        "This is downBtn % its value is %\n".postf(i+1, val);
     }
 };
 )
@@ -73,8 +73,6 @@ Interface
 
 `freeAll` unregisters all MIDI responders
 
-`ledsOff` turn off all LEDs
-
 *Note: `Cmd-.` removes all MIDI responders by default in SuperCollider*
 
 ### Controller names
@@ -83,13 +81,13 @@ All controls on the NanoKONTROL are supported, see list of names below.
 
 #### Faders/Knobs
 
-* `fader1 .. 8`
-* `knob1 .. 8`
+* `fader1 .. fader8`
+* `knob1 .. knob8`
 
 #### Buttons
 
-* `upBtn1 .. 8`
-* `downBtn1 .. 8`
+* `upBtn1 .. upBtn8`
+* `downBtn1 .. downBtn8`
 
 #### Transport buttons
 
